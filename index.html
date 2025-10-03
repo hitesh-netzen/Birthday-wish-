@@ -1,0 +1,124 @@
+import { useState, useEffect } from "react";
+
+export default function SisterBirthdayWish() {
+  const [confettiActive, setConfettiActive] = useState(true);
+  const [messageIndex, setMessageIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const birthdayMessages = [
+    "Happy Birthday to the best big sister in the world!",
+    "Wishing you a day filled with joy and laughter!",
+    "Thank you for always being there for me!",
+    "May your day be as wonderful as you are!",
+    "Here's to another amazing year ahead!"
+  ];
+
+  useEffect(() => {
+    const confettiTimer = setTimeout(() => {
+      setConfettiActive(false);
+    }, 5000);
+
+    return () => clearTimeout(confettiTimer);
+  }, []);
+
+  const nextMessage = () => {
+    setMessageIndex((prev) => (prev + 1) % birthdayMessages.length);
+  };
+
+  const toggleMusic = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-pink-100 to-purple-200 flex flex-col items-center justify-center p-6">
+      {confettiActive && (
+        <div className="fixed inset-0 pointer-events-none z-50">
+          {[...Array(50)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-2 h-2 bg-yellow-400 rounded-full animate-bounce"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${i * 0.1}s`,
+                opacity: Math.random() * 0.5 + 0.5
+              }}
+            />
+          ))}
+          {[...Array(30)].map((_, i) => (
+            <div
+              key={i + 50}
+              className="absolute w-3 h-3 bg-pink-400 rounded-full animate-bounce"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${i * 0.15}s`,
+                opacity: Math.random() * 0.5 + 0.5
+              }}
+            />
+          ))}
+        </div>
+      )}
+
+      <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center relative overflow-hidden">
+        <div className="absolute -top-4 -right-4 w-24 h-24 bg-pink-500 rounded-full opacity-20"></div>
+        <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-purple-500 rounded-full opacity-20"></div>
+        
+        <div className="relative z-10">
+          <h1 className="text-4xl font-bold text-purple-800 mb-2">Happy Birthday!</h1>
+          <div className="w-24 h-1 bg-gradient-to-r from-pink-400 to-purple-500 mx-auto mb-6"></div>
+          
+          <img 
+            src="https://placeholder-image-service.onrender.com/image/300x300?prompt=Celebratory birthday cake with pink frosting and candles&id=8f18807e-f338-406a-890b-bdaeaf30959d" 
+            alt="Colorful birthday cake with pink frosting and lit candles" 
+            className="w-48 h-48 mx-auto rounded-full object-cover border-4 border-pink-200 shadow-md mb-6"
+          />
+          
+          <p className="text-lg text-gray-700 mb-6">
+            To my amazing big sister,
+          </p>
+          
+          <div className="bg-pink-50 rounded-lg p-4 mb-6 border border-pink-100">
+            <p className="text-purple-800 font-medium">
+              {birthdayMessages[messageIndex]}
+            </p>
+          </div>
+          
+          <div className="flex justify-center gap-4 mb-6">
+            <button
+              onClick={nextMessage}
+              className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              Next Wish
+            </button>
+            
+            <button
+              onClick={toggleMusic}
+              className={`${
+                isPlaying 
+                  ? 'bg-pink-500 hover:bg-pink-600' 
+                  : 'bg-gray-200 hover:bg-gray-300'
+              } text-white px-4 py-2 rounded-lg transition-colors`}
+            >
+              {isPlaying ? '🎵 Music On' : '🎵 Play Music'}
+            </button>
+          </div>
+          
+          <div className="bg-purple-100 rounded-lg p-4">
+            <h2 className="text-purple-800 font-semibold mb-2">Why I appreciate you:</h2>
+            <ul className="text-left text-gray-700 list-disc list-inside">
+              <li>Your endless support and guidance</li>
+              <li>Your wonderful sense of humor</li>
+              <li>How you always know how to cheer me up</li>
+              <li>Your incredible strength and kindness</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div className="mt-8 text-center text-purple-700">
+        <p>Made with love by your little sibling ❤️</p>
+      </div>
+    </div>
+  );
+}
